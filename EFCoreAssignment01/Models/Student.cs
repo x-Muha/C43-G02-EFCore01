@@ -20,7 +20,15 @@ namespace EFCoreAssignment01.Models
 
         [Range(12,34)]
         public int Age { get; set; }
-        public int Dep_ID { get; set; }
+
+        #region Relationship with Department
+            // Configurations done inside DbContext - OnModelCreating
+            // From Student - Side
+            [ForeignKey(nameof(Department.Id))]
+            public int DepartmentId { get; set; }
+            public Department StudentDepartment { get; set; } = null!; 
+        #endregion
+
 
     }
 }

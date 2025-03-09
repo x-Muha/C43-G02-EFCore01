@@ -15,7 +15,8 @@ namespace EFCoreAssignment01.Models
         public string Duration { get; set; }
         public string Name { get; set; }
         public string? Description { get; set; } //By Convention allow null
-        public int Top_ID { get; set; }
+
+        public Topic CourseTopic { get; set; }
 
 
     }

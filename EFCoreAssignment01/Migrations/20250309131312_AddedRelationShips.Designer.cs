@@ -4,6 +4,7 @@ using EFCoreAssignment01.DbContexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EFCoreAssignment01.Migrations
 {
     [DbContext(typeof(ItiDbContext))]
-    partial class ItiDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250309131312_AddedRelationShips")]
+    partial class AddedRelationShips
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -85,17 +88,11 @@ namespace EFCoreAssignment01.Migrations
                     b.Property<int>("Ins_Id")
                         .HasColumnType("int");
 
-                    b.Property<int>("ManagerId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ManagerId")
-                        .IsUnique();
 
                     b.ToTable("departments");
                 });
@@ -218,17 +215,6 @@ namespace EFCoreAssignment01.Migrations
                     b.Navigation("CourseTopic");
                 });
 
-            modelBuilder.Entity("EFCoreAssignment01.Models.Department", b =>
-                {
-                    b.HasOne("EFCoreAssignment01.Models.Instructor", "Manager")
-                        .WithOne("ManagedDepartment")
-                        .HasForeignKey("EFCoreAssignment01.Models.Department", "ManagerId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.Navigation("Manager");
-                });
-
             modelBuilder.Entity("EFCoreAssignment01.Models.Instructor", b =>
                 {
                     b.HasOne("EFCoreAssignment01.Models.Department", "InstructorDepartment")
@@ -256,11 +242,6 @@ namespace EFCoreAssignment01.Migrations
                     b.Navigation("Instructors");
 
                     b.Navigation("Students");
-                });
-
-            modelBuilder.Entity("EFCoreAssignment01.Models.Instructor", b =>
-                {
-                    b.Navigation("ManagedDepartment");
                 });
 #pragma warning restore 612, 618
         }

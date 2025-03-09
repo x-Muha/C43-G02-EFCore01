@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EFCoreAssignment01.Migrations
 {
     [DbContext(typeof(ItiDbContext))]
-    [Migration("20250303084750_Initial")]
-    partial class Initial
+    [Migration("20250309131848_Test")]
+    partial class Test
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -33,6 +33,9 @@ namespace EFCoreAssignment01.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("CourseTopicId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
@@ -44,10 +47,9 @@ namespace EFCoreAssignment01.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Top_ID")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
+
+                    b.HasIndex("CourseTopicId");
 
                     b.ToTable("Courses");
                 });
@@ -74,8 +76,11 @@ namespace EFCoreAssignment01.Migrations
 
             modelBuilder.Entity("EFCoreAssignment01.Models.Department", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateOnly>("HiringDate")
                         .HasColumnType("date");
@@ -83,11 +88,17 @@ namespace EFCoreAssignment01.Migrations
                     b.Property<int>("Ins_Id")
                         .HasColumnType("int");
 
+                    b.Property<int>("ManagerId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ManagerId")
+                        .IsUnique();
 
                     b.ToTable("departments");
                 });
@@ -107,7 +118,7 @@ namespace EFCoreAssignment01.Migrations
                     b.Property<int>("Bonus")
                         .HasColumnType("int");
 
-                    b.Property<int>("Dept_Id")
+                    b.Property<int>("DepartmentId")
                         .HasColumnType("int");
 
                     b.Property<int>("HourRate")
@@ -121,6 +132,8 @@ namespace EFCoreAssignment01.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("DepartmentId");
 
                     b.ToTable("Instructors");
                 });
@@ -160,7 +173,7 @@ namespace EFCoreAssignment01.Migrations
                     b.Property<int>("Age")
                         .HasColumnType("int");
 
-                    b.Property<int>("Dep_ID")
+                    b.Property<int>("DepartmentId")
                         .HasColumnType("int");
 
                     b.Property<string>("FName")
@@ -174,6 +187,8 @@ namespace EFCoreAssignment01.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("DepartmentId");
 
                     b.ToTable("students");
                 });
@@ -193,6 +208,62 @@ namespace EFCoreAssignment01.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("topic");
+                });
+
+            modelBuilder.Entity("EFCoreAssignment01.Models.Course", b =>
+                {
+                    b.HasOne("EFCoreAssignment01.Models.Topic", "CourseTopic")
+                        .WithMany()
+                        .HasForeignKey("CourseTopicId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("CourseTopic");
+                });
+
+            modelBuilder.Entity("EFCoreAssignment01.Models.Department", b =>
+                {
+                    b.HasOne("EFCoreAssignment01.Models.Instructor", "Manager")
+                        .WithOne("ManagedDepartment")
+                        .HasForeignKey("EFCoreAssignment01.Models.Department", "ManagerId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Manager");
+                });
+
+            modelBuilder.Entity("EFCoreAssignment01.Models.Instructor", b =>
+                {
+                    b.HasOne("EFCoreAssignment01.Models.Department", "InstructorDepartment")
+                        .WithMany("Instructors")
+                        .HasForeignKey("DepartmentId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("InstructorDepartment");
+                });
+
+            modelBuilder.Entity("EFCoreAssignment01.Models.Student", b =>
+                {
+                    b.HasOne("EFCoreAssignment01.Models.Department", "StudentDepartment")
+                        .WithMany("Students")
+                        .HasForeignKey("DepartmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("StudentDepartment");
+                });
+
+            modelBuilder.Entity("EFCoreAssignment01.Models.Department", b =>
+                {
+                    b.Navigation("Instructors");
+
+                    b.Navigation("Students");
+                });
+
+            modelBuilder.Entity("EFCoreAssignment01.Models.Instructor", b =>
+                {
+                    b.Navigation("ManagedDepartment");
                 });
 #pragma warning restore 612, 618
         }
