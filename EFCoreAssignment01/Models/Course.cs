@@ -18,6 +18,13 @@ namespace EFCoreAssignment01.Models
 
         public Topic CourseTopic { get; set; }
 
+        // Relationship with Student / Stud_Course
+        public ICollection<Stud_Course> CourseStudents { get; set; } = new HashSet<Stud_Course>();
+        
+        // Relationship with Instructor / Course_Inst
+        public ICollection<Course_Inst> CourseInstructor { get; set; } = new HashSet<Course_Inst>();
+
+
 
     }
 }

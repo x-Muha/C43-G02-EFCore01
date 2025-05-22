@@ -26,8 +26,14 @@ namespace EFCoreAssignment01.Models
             // From Student - Side
             [ForeignKey(nameof(Department.Id))]
             public int DepartmentId { get; set; }
-            public Department StudentDepartment { get; set; } = null!; 
+            public Department StudentDepartment { get; set; } = null!;
         #endregion
+
+        #region Relationship with Course / Stud_Course
+
+        public ICollection<Stud_Course> StudentCourses { get; set; } = new HashSet<Stud_Course>();
+        #endregion
+
 
 
     }

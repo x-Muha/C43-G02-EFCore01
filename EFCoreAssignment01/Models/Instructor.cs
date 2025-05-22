@@ -27,5 +27,8 @@ namespace EFCoreAssignment01.Models
         // Manage Relation one - one
         public Department? ManagedDepartment { get; set; }
 
+        // Teach Relation Many - Many
+        public ICollection<Course_Inst> InstructorCourses { get; set; } = new HashSet<Course_Inst>();
+
     }
 }

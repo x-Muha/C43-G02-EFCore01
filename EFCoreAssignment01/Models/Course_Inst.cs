@@ -9,9 +9,12 @@ namespace EFCoreAssignment01.Models
 {
     internal class Course_Inst
     {
-        [Key]
+        //Primary key done by Fluent Api
         public int Inst_Id { get; set; }
         public int Course_Id { get; set; }
         public string Evaluate {  get; set; }
+
+        public Course Course { get; set; } 
+        public Instructor Instructor { get; set; } 
     }
 }
