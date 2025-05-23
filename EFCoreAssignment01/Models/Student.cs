@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+[assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]
 
 namespace EFCoreAssignment01.Models
 {
@@ -26,8 +28,14 @@ namespace EFCoreAssignment01.Models
             // From Student - Side
             [ForeignKey(nameof(Department.Id))]
             public int DepartmentId { get; set; }
-            public Department StudentDepartment { get; set; } = null!; 
+            public virtual Department StudentDepartment { get; set; } = null!;
         #endregion
+
+        #region Relationship with Course / Stud_Course
+
+        public virtual ICollection<Stud_Course> StudentCourses { get; set; } = new HashSet<Stud_Course>();
+        #endregion
+
 
 
     }

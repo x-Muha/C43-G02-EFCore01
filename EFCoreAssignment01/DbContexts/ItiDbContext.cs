@@ -21,7 +21,8 @@ namespace EFCoreAssignment01.DbContexts
         override protected void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer
-                ("Server = .; Database = CompanyDb; Trusted_Connection = true; TrustServerCertificate = true");
+                ("Server = .; Database = newItiDatabase; Trusted_Connection = true; TrustServerCertificate = true");
+            optionsBuilder.UseLazyLoadingProxies();
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -30,6 +31,49 @@ namespace EFCoreAssignment01.DbContexts
                         .WithMany(D => D.Students)
                         .HasForeignKey(S => S.DepartmentId)
                         .IsRequired(true);
+
+            #region Many - Many Relationships
+
+            #region Relationship Student - Course
+
+                modelBuilder.Entity<Student>()
+                            .HasMany(S => S.StudentCourses)
+                            .WithOne(SC => SC.Student)
+                            .HasForeignKey(SC => SC.Stud_ID)
+                            .IsRequired(true);
+
+                modelBuilder.Entity<Course>()
+                            .HasMany(C => C.CourseStudents)
+                            .WithOne(CS => CS.Course)
+                            .HasForeignKey(CS => CS.Course_ID)
+                            .IsRequired(false);
+            #endregion
+
+            #region Relationship Instructor - Course (Teach)
+
+                modelBuilder.Entity<Instructor>()
+                            .HasMany(I => I.InstructorCourses)
+                            .WithOne(IS => IS.Instructor)
+                            .HasForeignKey(IS => IS.Inst_Id)
+                            .IsRequired(false);
+
+
+                modelBuilder.Entity<Course>()
+                            .HasMany(C => C.CourseInstructor)
+                            .WithOne(IS => IS.Course)
+                            .HasForeignKey(IS => IS.Course_Id)
+                            .IsRequired(false);
+
+                modelBuilder.Entity<Course_Inst>()
+                            .HasKey(Key => new
+                            {
+                                Key.Course_Id,
+                                Key.Inst_Id
+                            });
+
+            #endregion 
+            #endregion
+
 
             // Works On Relation
             modelBuilder.Entity<Instructor>()
