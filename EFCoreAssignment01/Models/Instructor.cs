@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+[assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]
 
 namespace EFCoreAssignment01.Models
 {
@@ -20,15 +22,15 @@ namespace EFCoreAssignment01.Models
 
         // Works On Relation Many - One
         [ForeignKey(nameof(InstructorDepartment))]
-        public int DepartmentId { get; set; }
+        public int? DepartmentId { get; set; }
         [InverseProperty(nameof(Department.Instructors))]
-        public Department InstructorDepartment { get; set; }
+        public virtual Department? InstructorDepartment { get; set; }
 
         // Manage Relation one - one
-        public Department? ManagedDepartment { get; set; }
+        public virtual Department? ManagedDepartment { get; set; }
 
         // Teach Relation Many - Many
-        public ICollection<Course_Inst> InstructorCourses { get; set; } = new HashSet<Course_Inst>();
+        public virtual ICollection<Course_Inst>? InstructorCourses { get; set; } = new HashSet<Course_Inst>();
 
     }
 }

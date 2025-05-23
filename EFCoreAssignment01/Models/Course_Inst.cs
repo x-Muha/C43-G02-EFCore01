@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+[assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]
 
 namespace EFCoreAssignment01.Models
 {
@@ -14,7 +16,7 @@ namespace EFCoreAssignment01.Models
         public int Course_Id { get; set; }
         public string Evaluate {  get; set; }
 
-        public Course Course { get; set; } 
-        public Instructor Instructor { get; set; } 
+        public virtual Course Course { get; set; } 
+        public virtual Instructor Instructor { get; set; } 
     }
 }

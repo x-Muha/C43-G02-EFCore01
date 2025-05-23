@@ -1,7 +1,9 @@
 ﻿
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Runtime.CompilerServices;
 using Microsoft.EntityFrameworkCore;
+[assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]
 
 namespace EFCoreAssignment01.Models
 {
@@ -14,7 +16,7 @@ namespace EFCoreAssignment01.Models
         public int Course_ID { get; set; }
         public string Grade { get; set; } = null!;
 
-        public Student Student { get; set; } = null!;
-        public Course Course { get; set; } = null!;
+        public virtual Student Student { get; set; } = null!;
+        public virtual Course Course { get; set; } = null!;
     }
 }

@@ -15,9 +15,14 @@ namespace EFCoreAssignment01.ModelConfigurations
         {
             builder.HasOne(D => D.Manager)
                    .WithOne(I => I.ManagedDepartment)
-                   .HasForeignKey<Department>( D => D.ManagerId)
+                   .HasForeignKey<Department>(D => D.ManagerId)
                    .OnDelete(DeleteBehavior.NoAction)
-                   .IsRequired(true);
+                   .IsRequired(false);
+
+            builder.Property(D => D.HiringDate)
+                   .HasDefaultValueSql("CAST(GETDATE() AS DATE)");
+
+
         }
     }
 }

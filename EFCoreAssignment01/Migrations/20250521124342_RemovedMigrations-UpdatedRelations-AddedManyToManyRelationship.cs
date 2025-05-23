@@ -69,7 +69,7 @@ namespace EFCoreAssignment01.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                        .Annotation("SqlServer:Identity", "1, 10"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Ins_Id = table.Column<int>(type: "int", nullable: false),
                     HiringDate = table.Column<DateOnly>(type: "date", nullable: false),
